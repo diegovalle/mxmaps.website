@@ -1,0 +1,18 @@
+---
+title: "Page A"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(mxmaps)
+
+data("df_mxmunicipio")
+df_mxmunicipio$value <-  df_mxmunicipio$indigenous / df_mxmunicipio$pop 
+mxmunicipio_choropleth(df_mxmunicipio, num_colors = 1,
+                       title = "Percentage of the population that self-identifies as indigenous")
+
+```

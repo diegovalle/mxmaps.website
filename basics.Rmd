@@ -1,0 +1,41 @@
+---
+title: "Page A"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Continous scale
+```{r}
+library(mxmaps)
+
+df_mxstate$value <-  df_mxstate$indigenous / df_mxstate$pop 
+mxstate_choropleth(df_mxstate, num_colors = 9,
+                       title = "Percentage of the population that self-identifies as indigenous")
+```
+
+## Municipios
+
+Here's another one of Mexican municipios (similar to counties) with a continuous color scale set with num_colors = 1
+
+```{r}
+data("df_mxmunicipio")
+df_mxmunicipio$value <-  df_mxmunicipio$indigenous / df_mxmunicipio$pop 
+mxmunicipio_choropleth(df_mxmunicipio, num_colors = 1,
+                       title = "Percentage of the population that self-identifies as indigenous")
+
+```
+
+You can also subset the area to show in the choropleth by using the zoom parameter:
+
+```{r}
+
+mxmunicipio_choropleth(df_mxmunicipio, num_colors = 1,
+                       zoom = subset(df_mxmunicipio, metro_area %in% c("Valle de México",
+                                                                       "Puebla-Tlaxcala",
+                                                                       "Cuernavaca",
+                                                                       "Toluca"))$region,
+                       title = "Percentage of the population that self-identifies as indigenous") 
+```

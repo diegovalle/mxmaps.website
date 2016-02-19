@@ -1,0 +1,34 @@
+---
+title: "Mexico Choropleths"
+output: html_document
+fig_width: 8
+fig_height: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This package can be used to easily create maps of Mexico at both the state and municipio levels. It also includes functions to create interactive maps using the leaflet package, map INEGI data from its API, and format strings so they match the INEGI state and municipio codes.
+
+
+## Installation
+
+For the moment this package is only available from github. For the development version:
+
+```r
+if (!require(devtools)) {
+    install.packages("devtools")
+}
+devtools::install_github('diegovalle/mxmaps')
+```
+
+## Quick Example
+
+```{r}
+library(mxmaps)
+
+df_mxstate$value <- df_mxstate$pop
+mxstate_choropleth(df_mxstate,
+                    title = "Total population, by state") 
+```

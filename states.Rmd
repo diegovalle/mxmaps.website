@@ -1,0 +1,17 @@
+---
+title: "Page A"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(mxmaps)
+
+data("df_mxstate")
+df_mxstate$value <- df_mxstate$pop
+mxstate_choropleth(df_mxstate,
+                    title = "Total population, by state") 
+```
