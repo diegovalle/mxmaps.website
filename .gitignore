@@ -4,4 +4,4 @@
 .Ruserdata
 *.html
 *.topojson
-.*_files
+*_files
