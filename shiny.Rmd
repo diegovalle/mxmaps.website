@@ -1,5 +1,5 @@
 ---
-title: "Page A"
+title: "Shiny Server"
 output: html_document
 ---
 
@@ -7,7 +7,9 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-```{r}
+![interactive map of homicides in mexico](images/homicides_shiny.png)
+
+```r
 ## Load required packages
 library("dplyr")
 library("mxmaps")
@@ -45,14 +47,11 @@ hom <- crime %>%
          id = str_mxstate(state_code))
 
 data(mxstate.topoJSON)
-# have to use rjsonio
-write(RJSONIO::toJSON(mxstate.topoJSON), "state.topojson")
-#gg <- file("map.topojson", "w")
-#states <- geojson_read("../mxmaps.website/state.geojson", what = "sp")
-states <- topojson_read("state.topojson")
-#ogrListLayers("map.geojson")
-#ogrListLayers("state.topojson")
-#readOGR("map.topojson", "map.topojson")
+tmpdir <- tempdir()
+# have to use RJSONIO or else the topojson isn't valid
+write(RJSONIO::toJSON(mxstate.topoJSON), file.path(tmpdir, "state.topojson"))
+states <- topojson_read(ile.path(tmpdir, "state.topojson"))
+
 
 
 states@data$id <- str_mxstate(states@data$id)
@@ -96,7 +95,8 @@ server <- function(input, output, session) {
     leaflet(states) %>% addTiles() %>%
       setView(-102, 23.8, 5)%>% 
       addLegend(position = "bottomright",
-                          pal = pal, values = ~hom$rate)
+                          pal = pal, values = ~hom$rate,
+                          title = "homicide<br>rate")
   })
 
   # Incremental changes to the map (in this case, replacing the
@@ -118,3 +118,4 @@ server <- function(input, output, session) {
 
 shinyApp(ui, server)
 ```
+

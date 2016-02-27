@@ -17,3 +17,11 @@ knitr::kable(head(df_mxstate))
 data("df_mxmunicipio")
 knitr::kable(head(df_mxmunicipio))
 ```
+
+## String conversion
+
+```{r}
+str_mxstate(c(32, 5))
+str_mxmunicipio(c(32, 5), c(9, 18))
+str_mxmunicipio(c(32001, 5009))
+```
