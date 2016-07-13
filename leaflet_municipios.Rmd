@@ -19,7 +19,7 @@ pal <- colorNumeric(magma, domain = df_mxmunicipio$value)
 mxmunicipio_leaflet(df_mxmunicipio,
                     pal,
                     ~ pal(value),
-                    ~ sprintf("State: %s<br/>Municipio : %s<br/>Value: %s%%",
+                    ~ sprintf("State: %s<br/>Municipio : %s<br/>Percent Indigenous: %s%%",
                               state_name, municipio_name, round(value * 100, 1))) %>%
   addLegend(position = "bottomright", pal = pal, values = df_mxmunicipio$value,
             title = "Percent<br>Indigenous") %>%

@@ -9,7 +9,7 @@ fig_height: 5
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This R package can be used to easily create maps of Mexico at both the state and municipio levels. It also includes functions to create interactive maps using the leaflet package, map INEGI data from its API, and format strings so they match the INEGI state and municipio codes.
+This R package can be used to easily create maps of Mexico at both the state and municipio levels. It is based on the [choroplethr](https://cran.r-project.org/web/packages/choroplethr/index.html) package and also includes functions to create interactive maps using the leaflet package, map INEGI data from its API using the [inegiR](https://github.com/Eflores89/inegiR) package, and format strings so they match the INEGI state and municipio codes.
 
 
 ## Installation

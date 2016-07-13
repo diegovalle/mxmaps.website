@@ -9,6 +9,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ![interactive map of homicides in mexico](images/homicides_shiny.png)
 
+You can also use the data that comes with the package to create interactive webapps with shiny.
+
 ```r
 ## Load required packages
 library("dplyr")
@@ -20,6 +22,7 @@ library("leaflet")
 library("RColorBrewer")
 library("lubridate")
 library("zoo")
+library("stringi")
 
 # Download crime data
 ## From crimenmexico.diegovalle.net/en/csv
@@ -35,9 +38,10 @@ crime <- read.csv(file.path(tmpdir, "fuero-comun-estados.csv.gz"))
 ## Only intentional homicides
 crime <- subset(crime, modalidad == "HOMICIDIOS" & tipo == "DOLOSOS")
 
-## Sum homicides by firearm, etc and group by state and date
+## subset the year from the date
 crime$year <- as.integer(substr(crime$date, 1, 4))
 
+## Yearly homicide rates
 hom <- crime %>%
   mutate(year = year(as.yearmon(date))) %>%
   group_by(year, state_code, tipo, state) %>%
@@ -46,16 +50,15 @@ hom <- crime %>%
   mutate(region = str_mxstate(state_code),
          id = str_mxstate(state_code))
 
+# Convert the topoJSON to spatial object
 data(mxstate.topoJSON)
 tmpdir <- tempdir()
 # have to use RJSONIO or else the topojson isn't valid
 write(RJSONIO::toJSON(mxstate.topoJSON), file.path(tmpdir, "state.topojson"))
-states <- topojson_read(ile.path(tmpdir, "state.topojson"))
+states <- topojson_read(file.path(tmpdir, "state.topojson"))
 
-
-
+# state codes in a standard format
 states@data$id <- str_mxstate(states@data$id)
-
 
 
 ui <- bootstrapPage(
@@ -110,7 +113,10 @@ server <- function(input, output, session) {
       clearShapes()%>%
       addPolygons(stroke = TRUE, weight = 1, color = "#000000",
                   fillOpacity = 0.8, smoothFactor = 0.5,
-                  fillColor = ~pal(rate), popup = "cat")
+                  fillColor = ~pal(rate), 
+                  popup = ~ sprintf("State: %s<br/>Rate: %s",
+                           stri_trans_totitle(state), 
+                          round(rate, 1)))
   })
 
   
