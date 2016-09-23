@@ -1,6 +1,7 @@
 ---
 title: "Data"
 output: html_document
+css: css/report_styles.css
 ---
 
 ```{r setup, include=FALSE}
@@ -11,11 +12,14 @@ The data.frame that you provide to the plotting functions must have one column n
 
 ```{r}
 library(mxmaps)
+library(htmlTable)
 
 data("df_mxstate")
-knitr::kable(head(df_mxstate))
+htmlTable(head(df_mxstate), rnames = FALSE, col.rgroup = c("none", "#F7F7F7"),
+          css.tspanner = "padding-left: .5em; padding-right: .2em;")
 data("df_mxmunicipio")
-knitr::kable(head(df_mxmunicipio))
+htmlTable(head(df_mxmunicipio), rnames = FALSE, col.rgroup = c("none", "#F7F7F7"),
+          css.tspanner = "padding-left: .5em; padding-right: .2em;")
 ```
 
 State names and abbreviations come in two styles since normal people always use _Veracruz_ instead of the full official name of _Veracruz de Ignacio de la Llave_, and it's kind of awkward to use the Chiapas official abbreviation of _Chis._

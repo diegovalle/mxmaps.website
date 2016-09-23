@@ -1,0 +1,8 @@
+.gmisc_table {    display: block;
+    width: 100%;
+    overflow: auto;}
+
+table.gmisc_table  th, table.gmisc_table  td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
